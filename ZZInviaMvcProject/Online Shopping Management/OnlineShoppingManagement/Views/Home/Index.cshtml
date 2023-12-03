@@ -1,0 +1,330 @@
+﻿@using OnlineShoppingManagement.Models;
+
+@{
+    var user = ViewData["Data"] as UserTBL;
+}
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<main>
+@*This part contains icons for different 6 categories-------------------------- -------------*@
+<section class="container py-4">
+    <div class="row">
+        <div class="col-lg-2 offset-lg-0 text-center">
+            <a href="@Url.Action("ShowPhones","Product")">
+                <img src="https://th.bing.com/th/id/OIP.iC4RTiWY87ewTrEog8hfwwHaHa?w=206&h=206&c=7&r=0&o=5&pid=1.7" class="category-link" style="width: 70px; height: 70px; ">
+            </a>
+            <div><a href="@Url.Action("ShowPhones","Product")" style="color: black; font-weight: 300; font-size: 13px">Mobiles</a></div>
+        </div>
+
+
+
+        <div class="col-lg-2 text-center">
+            <a href="@Url.Action("ShowHeadsets","Product")">
+                <img src="https://th.bing.com/th/id/OIP.FfZYe5L2W2TZvA4GNZBanQHaHa?w=150&h=180&c=7&r=0&o=5&pid=1.7" class="category-link" style="width: 70px; height: 70px;">
+            </a>
+            <div><a href="@Url.Action("ShowHeadsets","Product")" style="color: black;font-weight:300;font-size:13px">HeadPhones</a></div>
+        </div>
+
+        <div class="col-lg-2 text-center">
+            <a href="@Url.Action("ShowLaptops","Product")">
+                <img src="https://tse4.mm.bing.net/th?id=OIP.SMrWbpKXdKtzKGWwq-qsKgHaHa&pid=ImgDet&w=206&h=206&c=7" class="category-link" style="width: 70px; height: 70px;">
+            </a>
+            <div><a href="@Url.Action("ShowLaptops","Product")" style="color: black; font-weight: 300; font-size: 13px">Laptops</a></div>
+        </div>
+
+        <div class="col-lg-2 text-center">
+            <a href="@Url.Action("ShowSmartwatches","Product")">
+                <img src="https://th.bing.com/th/id/OIP.iOOkEY26Y9Y_v8U3j7mg5wHaHa?w=192&h=192&c=7&r=0&o=5&pid=1.7" class="category-link" style="width: 70px; height: 70px;">
+            </a>
+            <div><a href="@Url.Action("ShowSmartwatches","Product")" style="color: black; font-weight: 300; font-size: 13px">Smart Watches</a></div>
+        </div>
+
+        <div class="col-lg-2 text-center">
+            <a href="@Url.Action("ShowPowerBanks","Product")">
+                <img src="https://th.bing.com/th?q=BlackWeb+Power+Bank&w=120&h=120&c=1&rs=1&qlt=90&cb=1&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247" class="category-link" style="width: 70px; height: 70px;">
+            </a>
+
+            <div><a href="@Url.Action("ShowPowerBanks","Product")" style="color: black; font-weight: 300; font-size: 13px">Power Banks</a></div>
+        </div>
+
+        <div class="col-lg-2 text-center">
+            <a href="@Url.Action("ShowBluetoothDevices","Product")">
+                <img src="https://th.bing.com/th/id/OIP.grD0aaY-Cxx1E6ttgIfeHgHaHa?w=154&h=180&c=7&r=0&o=5&pid=1.7" class="category-link" style="width: 100px; height: 70px;">
+            </a>
+            <div><a href="@Url.Action("ShowBluetoothDevices","Product")" style="color: black; font-weight: 300; font-size: 13px">Bluetooth Devices</a></div>
+        </div>
+
+
+        @*Add more categories here*@
+    </div>
+</section>
+
+
+@*This part contains sliding images--------------------------------------------------------*@
+
+
+<section class="container mt-5">
+    <!-- Slideshow goes here -->
+    <!-- You can use Bootstrap Carousel to create a slideshow -->
+    <div id="slideshow" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active card mb-4" style="margin-top: 10px;">
+                <img src="https://images.pexels.com/photos/5632378/pexels-photo-5632378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100 img-fluid" alt="Slideshow Image 1" style="background-size:cover;">
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.pexels.com/photos/5650026/pexels-photo-5650026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100 img-fluid" alt="Slideshow Image 2">
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.pexels.com/photos/5872364/pexels-photo-5872364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="d-block w-100 img-fluid" alt="Slideshow Image 3">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#slideshow" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#slideshow" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </a>
+    </div>
+</section>
+
+
+@*This part contains sectional images for 9 different categories-------------------------------------------*@
+<section id="MULTI_CTA2-container" class="container text-center mt-4">
+    <h2 class="color-ui-black font-medium type-xl xmar-b-xs">Freedom to choose what’s best for you</h2>
+
+    <div class="color-ui-black font-regular type-base xmar-b-xs">Our best deals for new and existing customers. On any smartphone. Your choice of plans. Only at Electro Zone.</div>
+
+    <div class="_1bHmd color-ui-black _1i2z3">Offers vary. Restrictions may apply.</div>
+</section>
+
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <!-- Image Container 1 -->
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowPhones","Product")">
+                    <img src="https://images.pexels.com/photos/341523/pexels-photo-341523.jpeg?auto=compress&cs=tinysrgb&w=400" class="card-img-top" alt="Image 1">
+                </a>
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">Smart Phones</h5>
+                        <p class="card-text">High-performance Android phone with a smooth user experience</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Image Container 2 -->
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowHeadsets","Product")">
+                    <img src="https://images.pexels.com/photos/5939401/pexels-photo-5939401.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="card-img-top" alt="Image 2">
+                </a>
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">Head Phones</h5>
+                        <p class="card-text">Premium wireless headphones with excellent sound quality</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Image Container 3 -->
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowAccessories","Product")">
+                    <img src="https://images.pexels.com/photos/1279365/pexels-photo-1279365.jpeg" class="card-img-top" alt="Image 3">
+                </a>
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">Wireless Speakers</h5>
+                        <p class="card-text">On-ear headphones with Apple W1 chip for easy pairing</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Image Container 4 -->
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowLaptops","Product")">
+                    <img src="https://images.pexels.com/photos/7974/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=400" class="card-img-top" alt="Image 3">
+                </a>
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">Laptops</h5>
+                        <p class="card-text">Powerful laptop with Retina display and M1 chip</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Image Container 5 -->
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowSmartwatches","Product")">
+                    <img src="https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=400" class="card-img-top" alt="Image 3">
+                </a>
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">Smart Watches</h5>
+                        <p class="card-text">Feature-packed smartwatch with comprehensive health tracking</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Image Container 6 -->
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowPowerBanks","Product")">
+                    <img src="https://images.pexels.com/photos/3921705/pexels-photo-3921705.jpeg?auto=compress&cs=tinysrgb&w=400" class="card-img-top" alt="Image 3">
+                </a>
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">Power Banks</h5>
+                        <p class="card-text">Portable power bank with a capacity of 10000mAh</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Image Container 7 -->
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowAccessories","Product")">
+                    <img src="https://images.pexels.com/photos/2203056/pexels-photo-2203056.jpeg?auto=compress&cs=tinysrgb&w=400" class="card-img-top" alt="Image 3">
+                </a>
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">Accessories</h5>
+                        <p class="card-text">Buy electronic accessories online at best prices</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Image Container 8 -->
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowTelecomPlans","Product")">
+                    <img src="https://images.pexels.com/photos/9039845/pexels-photo-9039845.jpeg?auto=compress&cs=tinysrgb&w=400" class="card-img-top" alt="Image 3">
+                </a>
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">Telecom Plans</h5>
+                        <p class="card-text">Basic plan with unlimited talk and text messages</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Image Container 9 -->
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowAccessories","Product")">
+                    <img src="https://images.pexels.com/photos/1670768/pexels-photo-1670768.jpeg?auto=compress&cs=tinysrgb&w=400" class="card-img-top" alt="Image 3">
+                </a>
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">Phone Covers</h5>
+                        <p class="card-text">Transparent phone case to showcase your phone design</p>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*-------------------------------For Website Overview--------------------------------------*@
+<section class="container mt-5">
+    <h2 class="text-center mb-4">Website Overview</h2>
+    <!-- Website overview content goes here -->
+    <p>E-commerce is changing the way we shop, and at Electro Zone, we embrace this transformation wholeheartedly. Our online store is your ultimate destination for all your electronic needs. Whether you're in search of the latest mobile phones, tablets, or telecom plans, we've got you covered. Not only that, but we also offer a wide range of products, from Mobile Accessories items to Laptops and time-saving appliances. With Electro Zone, you can find everything you need in just a single click!</p><br />
+    <br />
+</section>
+
+@*--------------------------------Css code for sliding images-------------------------------*@
+
+<style>
+    .img {
+        width: 20px;
+        height: 20px;
+    }
+    /* Custom CSS for the carousel images */
+    #slideshow img {
+        height: 300px; /* Set the desired height */
+        max-width: 100%; /* Ensure the width stays proportional to the height */
+        object-fit: cover; /* To preserve aspect ratio and cover the container */
+    }
+</style>
+
+@*-------------------------------------For footer message------------------------------------*@
+
+<footer class="bg-dark text-light py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Contact Information</h3>
+                <address>
+                    Electro Zone Headquarters<br />
+                    1234 Spark Avenue<br />
+                    Electric City, EZ 56789
+                </address>
+
+                <address>
+                    <strong>Customer Support:</strong> <a href="mailto:support@electrozone.com">support@electrozone.com</a><br />
+                   
+                    <strong>General Inquiries:</strong> <a href="mailto:info@electrozone.com">info@electrozone.com</a>
+                </address>
+            </div>
+
+
+            <div class="col-md-6">
+                <h3 style="margin-left:300px">Follow Us</h3>
+                <div class="social-links" style="margin-left:300px">
+                    <a href="#" class="btn btn-outline-light mr-2"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="btn btn-outline-light mr-2"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="btn btn-outline-light mr-2"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="btn btn-outline-light mr-2"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <p>
+                <br />
+                
+                For any assistance or questions, feel free to contact our dedicated support team. Our friendly representatives will be glad to help you with any inquiries you may have.
+                Looking for the latest and greatest gadgets and electronics? Check out our diverse range of cutting-edge products. Whether you're a tech enthusiast or just looking to upgrade your home, Electro Zone has something for everyone!
+                Stay updated with the latest promotions and exclusive offers by subscribing to our newsletter. Don't miss out on the chance to grab your favorite products at discounted prices.
+            </p>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
+@if (!string.IsNullOrEmpty(ViewBag.UserName))
+{
+    <div class="text-center">
+        <h3>Welcome, @ViewBag.UserName!</h3>
+    </div>
+}
+</main>
+
+
+
+
+
+@*@section Scripts {
+    <script>
+        // Wait for the document to be fully loaded
+        $(document).ready(function () {
+            // Redirect to the login page after 5 seconds
+            setTimeout(function () {
+                window.location.href = '@Url.Action("CreateUser", "User")';
+            }, 5000); // 5000 milliseconds = 5 seconds
+        });
+    </script>
+}*@

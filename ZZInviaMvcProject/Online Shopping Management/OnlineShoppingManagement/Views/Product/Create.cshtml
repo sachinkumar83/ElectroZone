@@ -1,0 +1,159 @@
+﻿
+@model OnlineShoppingManagement.Models.Product
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<style>
+    body {
+        background-color: #f7f7f7;
+    }
+
+    .form-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    /* Additional Custom Styles */
+
+    h2 {
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+        border-bottom: 2px solid #333;
+        padding-bottom: 10px;
+        text-align: center;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    /* Additional CSS for the category dropdown */
+    .form-group select#categoryId {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+</style>
+
+
+<h2 style="font-size: 28px; font-weight: bold; color: #333; text-transform: uppercase; border-bottom: 2px solid #333; padding-bottom: 10px;">Create Product</h2>
+
+<div class="form-container">
+    @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))      //give id in this code
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-4 col-form-label" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-4 col-form-label" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-4 col-form-label" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-4 col-form-label" })
+            <div class="col-md-8">
+                <select name="categoryId" id="categoryId" class="form-control">
+                    <option value="">Select a category</option>
+                    @foreach (var categoryOption in ViewBag.Categories)
+                    {
+                        <option value="@categoryOption.Value">@categoryOption.Text</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group row">
+                @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-4 col-form-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.CategoryId, ViewBag.Categories, "Select a category", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+        <div class="form-group row">
+            @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-4 col-form-label" })
+            <div class="col-md-8">
+                @*  @Html.DropDownListFor(model => model.CategoryId, Enumerable.Range(1, 10).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }), "Select a category", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })*@
+
+                <input type="file" name="ImageFile" accept=".jpg, .jpeg, .png" required />
+            </div>
+        </div>
+
+        //image
+        @*
+            <div class="form-group">
+                @Html.Label("Product Image")
+                <input type="file" name="imageFile" accept=".jpg, .jpeg, .png" />
+            </div>*@
+
+
+        <div class="form-group row">
+            <div class="col-md-15 text-center">
+                <input type="submit" value="Create" class="btn btn-primary btn-light" />
+            </div>
+        </div>
+    }
+</div>
+
+
+
+

@@ -1,0 +1,65 @@
+- Models
+  - User.cs
+  - Category.cs
+  - Product.cs
+  - Order.cs
+  - OrderItem.cs
+  - Cart.cs
+  - CartItem.cs
+  - Payment.cs
+  - CategoryProduct.cs
+- Repositories
+  - IUserRepository.cs
+  - ICategoryRepository.cs
+  - IProductRepository.cs
+  - IOrderRepository.cs
+  - IOrderItemRepository.cs
+  - ICartRepository.cs
+  - ICartItemRepository.cs
+  - IPaymentRepository.cs
+  - ICategoryProductRepository.cs
+- Services
+  - UserService.cs
+  - CategoryService.cs
+  - ProductService.cs
+  - OrderService.cs
+  - CartService.cs
+  - PaymentService.cs
+- Controllers
+  - UserController.cs
+  - CategoryController.cs
+  - ProductController.cs
+  - OrderController.cs
+  - CartController.cs
+  - PaymentController.cs
+- Views
+  - User (folder)
+    - Index.cshtml
+    - Create.cshtml
+    - Edit.cshtml
+    - Details.cshtml
+  - Category (folder)
+    - Index.cshtml
+    - Create.cshtml
+    - Edit.cshtml
+    - Details.cshtml
+  - Product (folder)
+    - Index.cshtml
+    - Create.cshtml
+    - Edit.cshtml
+    - Details.cshtml
+  - Order (folder)
+    - Index.cshtml
+    - Create.cshtml
+    - Edit.cshtml
+    - Details.cshtml
+  - Cart (folder)
+    - Index.cshtml
+    - Create.cshtml
+    - Edit.cshtml
+    - Details.cshtml
+  - Payment (folder)
+    - Index.cshtml
+    - Create.cshtml
+    - Edit.cshtml
+    - Details.cshtml

@@ -1,0 +1,59 @@
+-------------------------------------Database Table Notes-----------------------------------
+
+
+Based on the above statement, here are some suggested entities for a telecom online shopping management system in SQL Server:
+
+1. User:
+   - UserId (Primary Key)
+   - Username
+   - Email
+   - Password (hashed and salted)
+   - Role (e.g., customer, admin)
+
+2. Category:
+   - CategoryId (Primary Key)
+   - Name
+   - Description
+
+3. Product:
+   - ProductId (Primary Key)
+   - Name
+   - Description
+   - Price
+   - CategoryId (Foreign Key referencing Category)
+
+4. Order:
+   - OrderId (Primary Key)
+   - UserId (Foreign Key referencing User)
+   - OrderDate
+   - TotalAmount
+
+5. OrderItem:
+   - OrderItemId (Primary Key)
+   - OrderId (Foreign Key referencing Order)
+   - ProductId (Foreign Key referencing Product)
+   - Quantity
+   - UnitPrice
+
+6. Cart:
+   - CartId (Primary Key)
+   - UserId (Foreign Key referencing User)
+
+7. CartItem:
+   - CartItemId (Primary Key)
+   - CartId (Foreign Key referencing Cart)
+   - ProductId (Foreign Key referencing Product)
+   - Quantity
+
+8. Payment:
+   - PaymentId (Primary Key)
+   - UserId (Foreign Key referencing User)
+   - OrderId (Foreign Key referencing Order)
+   - PaymentDate
+   - Amount
+
+9. CategoryProduct:
+   - CategoryId (Foreign Key referencing Category)
+   - ProductId (Foreign Key referencing Product)
+
+These suggested entities represent the core components of a telecom online shopping management system. You may need to modify or expand them based on the specific requirements of your project. Additionally, consider implementing appropriate indexes, constraints, and relationships to ensure data integrity and optimize performance.

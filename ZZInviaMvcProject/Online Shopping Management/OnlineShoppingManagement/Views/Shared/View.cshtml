@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Cart";
+}
+
+<div class="container mt-4">
+    <h2>Your Cart</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody id="cartItemsTableBody">
+            <!-- Cart items will be added here using jQuery -->
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Function to display cart items from client-side session storage
+    function displayCartItems() {
+        var cartItems = JSON.parse(sessionStorage.getItem('CartItems')) || [];
+
+        // Clear the table body before adding items
+        $('#cartItemsTableBody').empty();
+
+        // Add cart items to the table
+        cartItems.forEach(function (item) {
+            $('#cartItemsTableBody').append('<tr><td>' + item.ProductId + '</td><td>' + item.Name + '</td><td>' + item.Price + '</td><td>' + item.Quantity + '</td></tr>');
+        });
+    }
+
+    // Call the function to display cart items when the page loads
+    $(document).ready(function () {
+        displayCartItems();
+    });
+</script>

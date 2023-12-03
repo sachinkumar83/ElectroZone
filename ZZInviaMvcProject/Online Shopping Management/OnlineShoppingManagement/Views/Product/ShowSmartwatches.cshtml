@@ -1,0 +1,146 @@
+﻿@model IEnumerable<OnlineShoppingManagement.Models.Product>
+
+@{
+    ViewBag.Title = "ShowSmartwatches";
+}
+
+<style>
+    /* Styling for the "Add to Cart" button */
+    .add-to-cart-btn {
+        background-color: #ff9900;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .add-to-cart-btn:hover {
+            background-color: #ff8800;
+        }
+
+    /* Styling for the product images */
+    .product-image {
+        max-width: 100px;
+        max-height: 100px;
+        display: block;
+        margin: 0 auto;
+    }
+    .card{
+        height:350px;
+    }
+    .card-title{
+        height:60px;
+    }
+</style>
+
+<h2>Smart Watch</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <label for="productNameFilter">Filter by Name:</label>
+            <input type="text" id="productNameFilter" class="form-control" placeholder="Enter product name">
+        </div>
+        <div class="col-md-4 mb-4">
+            <label for="minPriceFilter">Min Price:</label>
+            <select id="minPriceFilter" class="form-control">
+                <option value="">Select Min Price</option>
+                <option value="0">0</option>
+                <option value="3000">3000</option>
+                <option value="20000">20000</option>
+                <option value="30000">30000</option>
+
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="col-md-4 mb-4">
+            <label for="maxPriceFilter">Max Price:</label>
+            <select id="maxPriceFilter" class="form-control">
+                <option value="">Select Max Price</option>
+                <option value="3000">3000</option>
+                <option value="20000">20000</option>
+                <option value="30000">30000</option>
+                <option value="40000">40000</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+
+    </div>
+
+    <div class="row" id="productContainer">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 mb-4 product-item">
+                <div class="card">
+                    @*<img class="product-image" src="@item.ImageUrl" alt="Product Image">*@
+                    <div class="card-body text-center">
+                        @if (!string.IsNullOrEmpty(item.ImagePath))
+                        {
+                            <img src="@Url.Content(item.ImagePath)" alt="Product Image" width="150" height="150" />
+
+                        }
+                        else
+                        {
+                            <p>No image available.</p>
+                        }
+                        <h5 class="card-title">@item.Name</h5>
+                        @* <p class="card-text">@item.Description</p>*@
+                        <p class="card-text">Price: @item.Price</p>
+                        @*<button class="add-to-cart-btn">Add to Cart</button>*@
+                        @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-info btn-lg" })
+                    </div>
+                </div>
+            </div>
+        }
+
+        @* Product not found message *@
+        <div class="col-md-12 mt-4 text-center" id="productNotFoundMessage" style="display: none;">
+            <h3>Product not found</h3>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to apply product filtering based on user input
+        function applyProductFilters() {
+            var productNameFilter = $("#productNameFilter").val().toLowerCase();
+            var minPriceFilter = parseFloat($("#minPriceFilter").val());
+            var maxPriceFilter = parseFloat($("#maxPriceFilter").val());
+
+            var productsFound = false;
+
+            $(".product-item").each(function () {
+                var productName = $(this).find(".card-title").text().toLowerCase();
+                var productPrice = parseFloat($(this).find(".card-text:contains('Price')").text().replace("Price:", "").trim());
+
+                var productNameMatch = productName.indexOf(productNameFilter) > -1;
+                var priceInRange = isNaN(minPriceFilter) || isNaN(maxPriceFilter) ||
+                    (productPrice >= minPriceFilter && productPrice <= maxPriceFilter);
+
+                if (productNameMatch && priceInRange) {
+                    $(this).show();
+                    productsFound = true;
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            // Show/hide "Product not found" message
+            if (productsFound) {
+                $("#productNotFoundMessage").hide();
+            } else {
+                $("#productNotFoundMessage").show();
+            }
+        }
+
+        // Trigger filtering when user types in the filter inputs for product name and price range
+        $("#productNameFilter, #minPriceFilter, #maxPriceFilter").on("input", function () {
+            applyProductFilters();
+        });
+    });
+</script>
+

@@ -1,0 +1,182 @@
+﻿@using OnlineShoppingManagement.Models
+@model OnlineShoppingManagement.Models.Product
+@{
+    var user = ViewData["Data"] as UserTBL;
+}
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@if (ViewBag.data != null)
+{
+    <div class="container mt-4">
+        <div class="alert alert-info" role="alert">
+            @*<h2 class="text-center">@ViewBag.data</h2>*@
+        </div>
+    </div>
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card border-info">
+                <div class="card-body">
+                    <h2 class="card-title text-info">Product Details</h2>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-4">
+                            <strong>Name</strong>
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                        <dt class="col-sm-4">
+                            <strong>Description</strong>
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+                        <dt class="col-sm-4">
+                            <strong>Price</strong>
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Price)
+                        </dd>
+                        @*<dt class="col-sm-4">
+                                <strong>Category ID</strong>
+                            </dt>
+                            <dd class="col-sm-8">
+                                @Html.DisplayFor(model => model.CategoryId)
+                                @Html.DisplayFor(model => model.ProductId)
+                            </dd>*@
+                    </dl>
+
+                    <div class="col-md-6">
+                        <h6 style="color: #FD8D14;font-weight:bold">Quantity</h6>
+                        <input type="number" id="quantity" value="1" min="1" class="form-control" />
+                        <button onclick="addToCart(@Model.ProductId, '@Model.Name', @Model.Price, parseInt(document.getElementById('quantity').value))" class="btn btn-success mt-3">Add to Cart</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img src="@Url.Content(Model.ImagePath)" class="card-img img-fluid" style="width: 100%; height: 390px" alt="@Model.Name">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Your existing HTML content -->
+<script>
+    // Function to add the product to session storage
+    // Function to add the product to session storage
+    function addToCart(productId, name, price, quantity) {
+        var cartItem = {
+            ProductId: productId,
+            Name: name,
+            Price: price,
+            Quantity: quantity
+        };
+
+        // Retrieve the existing cart items from session storage or create a new array if it doesn't exist
+        var cartItems = JSON.parse(sessionStorage.getItem('CartItems')) || [];
+
+        // Check if the product is already in the cart
+        var existingItemIndex = cartItems.findIndex(item => item.ProductId === productId);
+
+        if (existingItemIndex !== -1) {
+            // If the product is already in the cart, increase its quantity
+            cartItems[existingItemIndex].Quantity += quantity;
+        } else {
+            // If the product is not in the cart, add it
+            cartItems.push(cartItem);
+        }
+
+        // Store the updated list back into session storage
+        sessionStorage.setItem('CartItems', JSON.stringify(cartItems));
+
+
+
+        // Optionally, you can display a message to the user that the product has been added to the cart.
+        alert('Product added to cart successfully.');
+        updateCartCount();
+    }
+
+    function updateCartCount() {
+        var cartItems = JSON.parse(sessionStorage.getItem('CartItems')) || [];
+        var cartCount = cartItems.reduce((total, item) => total + item.Quantity, 0);
+
+        // Update the cart count in the nav bar
+        var cartCountElement = document.getElementById('cartCount');
+        cartCountElement.textContent = cartCount;
+    }
+
+
+    function displayCartItems() {
+        var cartItems = JSON.parse(sessionStorage.getItem('CartItems')) || [];
+
+        // Get the cart items list element from the HTML
+        var cartItemsList = document.getElementById('cartItemsList');
+
+        // Clear the previous content
+        cartItemsList.innerHTML = '';
+
+        if (cartItems.length === 0) {
+            // If the cart is empty, display a message
+            var message = document.createElement('p');
+            message.textContent = 'Your cart is empty.';
+            cartItemsList.appendChild(message);
+        } else {
+
+            // If there are items in the cart, create a table to display them
+            var table = document.createElement('table');
+            table.className = 'table table-bordered';
+
+            // Create the table header
+            var headerRow = document.createElement('tr');
+            headerRow.innerHTML = '<th>Product ID</th><th>Name</th><th>Price</th><th>Quantity</th>';
+            table.appendChild(headerRow);
+
+            // Create table rows for each cart item
+            cartItems.forEach(function (item) {
+                var row = document.createElement('tr');
+                row.innerHTML = '<td>' + item.ProductId + '</td><td>' + item.Name + '</td><td>$' + item.Price.toFixed(2) + '</td><td>' + item.Quantity + '</td>';
+                table.appendChild(row);
+            });
+
+            cartItemsList.appendChild(table);
+        }
+    }
+    // Call the function to display cart items when the page loads
+    updateCartCount();
+
+
+    window.addEventListener('storage', updateCartCount);
+
+    // Send the data to the controller using AJAX
+        $.ajax({
+            url: '@Url.Action("CheckOut", "Cart")', // Replace "Home" with the name of your controller
+            type: 'POST',
+            data: JSON.stringify(cartItemsList),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (response) {
+                // Handle the response from the controller if needed
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle any errors that occur during the AJAX request
+                console.error(error);
+            }
+        });
+</script>
+
+<div class="container mt-4">
+    <div id="cartItemsList"></div>
+</div>
+
+

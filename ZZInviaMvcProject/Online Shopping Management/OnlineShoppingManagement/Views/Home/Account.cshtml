@@ -1,0 +1,166 @@
+﻿@using OnlineShoppingManagement.Models
+@model OnlineShoppingManagement.Models.UserTBL
+
+<html>
+<head>
+    <style>
+        .testbutton {
+            font-family: georgia;
+            color: #030303 !important;
+            font-size: 15px;
+            text-shadow: 1px 1px 10px #0A0A0A;
+            box-shadow: 1px 1px 0px #F2F2F2;
+            padding: 10px 25px;
+            border-radius: 24px;
+            border: 2px solid #BABABA;
+            background: #4F4F4F;
+            background: linear-gradient(to top, #4F4F4F, #FFFFFF);
+        }
+
+            .testbutton:hover {
+                color: #010305 !important;
+                background: #3B3C3D;
+                background: linear-gradient(to top, #3B3C3D, #F3F6FF);
+            }
+
+        .no-underline {
+            text-decoration: none;
+        }
+
+        .card-title, .card-text {
+            color: black;
+        }
+
+        .nav-item1 a.nav-link1 {
+            color: black !important;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: underline solid black;
+        }
+    </style>
+</head>
+<body>
+    <div style="color:black">
+        <span style="font-size:30px">Your Account</span>
+
+        <span class="nav-item1" style="margin-left:850px">
+            @Html.ActionLink("Log Out", "LogOut", "User", new { area = "" }, new { @class = "nav-link1", id = "logoutLink" })
+        </span>
+
+        <span>
+            @if (ViewData["Data"] != null)
+            {
+                var user = ViewData["Data"] as UserTBL;
+                <h6>Hello,@user.Username</h6>
+            }
+        </span>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+
+        <div class="col-md-5">
+            <!-- Image Container 1 -->
+            <div class="card mb-4" style="margin-left:20px">
+                <a href="@Url.Action("CategoryForCustomer","Category", new { id = "logoutLink" })" class="no-underline">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="https://th.bing.com/th/id/OIP.rTUPAACkxU7Wx3QHnLQ6GgHaHa?w=169&h=180&c=7&r=0&o=5&pid=1.7" class="card-img-top" alt="Image 1" style="height:100px">
+                            </div>
+                            <div class="col-md-9">
+                                <h5 class="card-title">Go To Shopping</h5>
+                                <p class="card-text">Discover a wide range of products for all your shopping needs</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-5" style="margin-left:150px">
+            <!-- Image Container 2 ------------------------------------------------------>
+            <div class="card mb-4">
+                <a href="@Url.Action("CheckOut","Cart")" class="no-underline">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="https://th.bing.com/th/id/OIP.wk7nZErOy-KV02yVeOZLKQAAAA?w=177&h=180&c=7&r=0&o=5&pid=1.7" class="card-img-top" alt="Image 1" style="height:100px;margin-right:10px">
+                            </div>
+                            <div class="col-md-9">
+                                <h5 class="card-title">Go To Cart</h5>
+                                <p class="card-text">Explore and manage the items in your shopping cart</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <!--Image Container 3---------------------------------------------------------->
+            <div class="card mb-4" style="margin-left:20px">
+                <a href="@Url.Action("ChangePassword","User")" class="no-underline">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="https://th.bing.com/th/id/OIP.IE4OPCm8DhaUns6DUTdB-AAAAA?w=172&h=181&c=7&r=0&o=5&pid=1.7" class="card-img-top" alt="Image 1" style="height:100px">
+                            </div>
+                            <div class="col-md-9">
+                                <h5 class="card-title">Change Password</h5>
+                                <p class="card-text">Please update your password to ensure the security of your account</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-5" style="margin-left:150px">
+            @*Image Container 4-------------------------------------------------------------------*@
+            <div class="card mb-4">
+                <a href="@Url.Action("ShowOrder", "Order")" class="no-underline">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="https://th.bing.com/th?q=Order+Received+Icon&w=120&h=120&c=1&rs=1&qlt=90&cb=1&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247" class="card-img-top" alt="Image 1" style="height:100px">
+                            </div>
+                            <div class="col-md-9">
+                                <h5 class="card-title">Order History</h5>
+                                <p class="card-text">View your past orders and track your purchase history</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div>
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Attach a click event handler to the logout link
+            $("#logoutLink").click(function (e) {
+                // Prevent the default behavior of the link
+                e.preventDefault();
+
+                // Show a confirmation dialog
+                var confirmLogout = confirm("Are you sure you want to logout?");
+
+                // If the user confirms the logout, redirect to the logout action
+                if (confirmLogout) {
+                    window.location.href = $(this).attr("href");
+                } else {
+                    // If the user cancels the logout, do nothing
+                    return false;
+                }
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

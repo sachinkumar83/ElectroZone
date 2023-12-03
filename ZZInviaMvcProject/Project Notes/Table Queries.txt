@@ -1,0 +1,139 @@
+---------------------------------Database--------------------------------------------------
+
+CREATE DATABASE TelecomShoppingDB;
+GO
+
+USE TelecomShoppingDB;
+GO
+
+
+---------------------------------
+
+
+CREATE TABLE [User] (
+    UserId INT PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Password VARCHAR(100) NOT NULL,
+    Role VARCHAR(20) NOT NULL
+);
+
+
+
+---------------------------------
+
+CREATE TABLE Category (
+    CategoryId INT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Description VARCHAR(200) NOT NULL
+);
+
+
+--------------------------------
+CREATE TABLE Product (
+    ProductId INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Description VARCHAR(200) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    CategoryId INT NOT NULL,
+    FOREIGN KEY (CategoryId) REFERENCES Category(CategoryId)
+);
+
+
+
+
+---------------------------------
+CREATE TABLE [Order] (
+    OrderId INT PRIMARY KEY,
+    UserId INT NOT NULL,
+    OrderDate DATETIME NOT NULL,
+    TotalAmount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (UserId) REFERENCES [User](UserId)
+);
+
+
+
+----------------------------------
+CREATE TABLE OrderItem (
+    OrderItemId INT PRIMARY KEY,
+    OrderId INT NOT NULL,
+    ProductId INT NOT NULL,
+    Quantity INT NOT NULL,
+    UnitPrice DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (OrderId) REFERENCES [Order](OrderId),
+    FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+);
+
+
+
+---------------------------------
+
+
+CREATE TABLE Cart (
+    CartId INT PRIMARY KEY,
+    UserId INT NOT NULL,
+    FOREIGN KEY (UserId) REFERENCES [User](UserId)
+);
+
+
+
+
+---------------------------------
+
+
+CREATE TABLE CartItem (
+    CartItemId INT PRIMARY KEY,
+    CartId INT NOT NULL,
+    ProductId INT NOT NULL,
+    Quantity INT NOT NULL,
+    FOREIGN KEY (CartId) REFERENCES Cart(CartId),
+    FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+);
+
+
+
+-----------------------------------
+
+
+CREATE TABLE Payment (
+    PaymentId INT PRIMARY KEY,
+    UserId INT NOT NULL,
+    OrderId INT NOT NULL,
+    PaymentDate DATETIME NOT NULL,
+    Amount DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (UserId) REFERENCES [User](UserId),
+    FOREIGN KEY (OrderId) REFERENCES [Order](OrderId)
+);
+
+
+-------------------------------------------
+
+
+CREATE TABLE CategoryProduct (
+    CategoryId INT NOT NULL,
+    ProductId INT NOT NULL,
+    PRIMARY KEY (CategoryId, ProductId),
+    FOREIGN KEY (CategoryId) REFERENCES Category(CategoryId),
+    FOREIGN KEY (ProductId) REFERENCES Product(ProductId)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

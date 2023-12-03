@@ -1,0 +1,132 @@
+﻿
+
+@model OnlineShoppingManagement.Models.Product
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="container mt-4">
+    <h2 class="text-center" style="color: #5d4aff;">Edit</h2>
+
+    @*@using (Html.BeginForm("Add", "Test", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
+    @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { enctype = "multipart/form-data", id = "editForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal" style="background-color: #f8f8f8; padding: 20px; border-radius: 8px;">
+            <h4>Product</h4>
+            <hr style="border-color: #5d4aff;" />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ProductId)
+
+
+
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "border-color: #5d4aff;" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", style = "border-color: #5d4aff;" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", style = "border-color: #5d4aff;" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CategoryId, new { htmlAttributes = new { @class = "form-control", style = "border-color: #5d4aff;" } })
+                    @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    <input type="file" name="ImageFile" accept=".jpg, .jpeg, .png" required />
+                </div>
+            </div>
+
+            @*<input type="file" name="ImageFile" accept=".jpg, .jpeg, .png" required />*@
+
+
+            <div class="form-group row">
+                <div class="offset-md-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-primary" style="background-color: #5d4aff; border-color: #5d4aff;" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@*new { id = item.ProductId }, new { @class = "btn btn-danger btn-sm" }*@
+
+
+<div class="container text-center mt-2">
+    @Html.ActionLink("Back to List", "BackToList", new { id = Model.CategoryId }, new { @class = "btn btn-secondary" })
+</div>
+
+
+
+@*<script>
+    // Function to show success alert
+    function showSuccessAlert() {
+        alert("Edit is successfully saved!");
+    }
+
+    $(document).ready(function () {
+        // Attach event listener to the form submission
+        $("#editForm").submit(function (event) {
+            /*event.preventDefault(); /*/
+
+            // Perform form submission using AJAX
+            $.ajax({
+                url: $(this).attr("action"),
+                type: $(this).attr("method"),
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    // Form submission is successful, show success alert
+                    showSuccessAlert();
+                },
+                error: function (xhr, status, error) {
+                    // Handle error if needed
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>*@
+
+
+
+
+
+
+
+
+
+
+
+
+

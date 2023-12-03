@@ -1,0 +1,4 @@
+Model Namespace-TelecomShoppingDBModel
+TelecomShoppingDBEntities
+
+Data Source - DESKTOP-3P2TPUS\MSSQLSERVER1

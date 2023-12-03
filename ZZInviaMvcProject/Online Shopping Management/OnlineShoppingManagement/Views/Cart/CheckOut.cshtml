@@ -1,0 +1,242 @@
+﻿
+@using OnlineShoppingManagement.Models
+@{
+    var user = ViewData["Data"] as UserTBL;
+}
+
+<html>
+<head>
+    <script src="https://kit.fontawesome.com/a6100c8398.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .body {
+            background-color: white;
+            color: black;
+            background-image: url("https://png.pngtree.com/png-vector/20220719/ourmid/pngtree-jumping-customers-with-gift-bags-png-image_6009172.png");
+        }
+
+        .btn1 {
+            border-radius: 4px;
+            height: 44px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            -webkit-transition: all 200ms linear;
+            transition: all 200ms linear;
+            padding: 0 30px;
+            letter-spacing: 1px;
+            display: -webkit-inline-flex;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -ms-flex-pack: center;
+            text-align: center;
+            border: none;
+            background-color: #ffeba7;
+            color: #102770;
+            box-shadow: 0 8px 24px 0 rgba(255,235,167,.2);
+        }
+
+            .btn1:active,
+            .btn1:focus {
+                background-color: #102770;
+                color: #ffeba7;
+                box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+            }
+
+            .btn1:hover {
+                background-color: #102770;
+                color: #ffeba7;
+                box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
+            }
+
+        .background-image {
+            /* Replace the URL with your image URL */
+            background-image: url('https://png.pngtree.com/png-vector/20220719/ourmid/pngtree-jumping-customers-with-gift-bags-png-image_6009172.png');
+            /* Set the background size and position properties */
+            background-size: cover;
+            background-position: center;
+            /* Set the width and height of the div */
+            width: 300px;
+            height: 300px;
+            /* Set any other styles for the div */
+            margin-left: 900px;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>
+        @ViewBag.Name
+    </h1>
+    <h2>Shopping Bag</h2><br />
+    <div id="cartItemsList"></div>
+    <table style="margin-left:950px">
+        @if (user != null)
+        {
+            <tr>
+                <th>Total Price</th>
+                <td id="totalPriceCell">₹0.00</td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <a href="@Url.Action("PlaceOrder","Order")">
+                        <center>
+                            <input type="submit" value="Pay Now" class="btn1" />
+                        </center>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="background-image">
+    </div>
+    <script>
+        // update
+        function updateTotalPrice() {
+            var cartItems = JSON.parse(sessionStorage.getItem('CartItems')) || [];
+            var totalPrice = 0;
+
+            // Calculate the total price for each item (price * quantity)
+            cartItems.forEach(function (item) {
+                totalPrice += item.Price * item.Quantity;
+            });
+
+            // Update the total price cell in the HTML
+            var totalPriceCell = document.getElementById('totalPriceCell');
+            totalPriceCell.textContent = '₹' + totalPrice.toFixed(2);
+        }
+
+        // Function to add the product to session storage
+
+        function displayCartItems() {
+            var cartItems = JSON.parse(sessionStorage.getItem('CartItems')) || [];
+
+            // Get the cart items list element from the HTML
+            var cartItemsList = document.getElementById('cartItemsList');
+
+            // Clear the previous content
+            cartItemsList.innerHTML = '';
+
+            if (cartItems.length === 0) {
+                // If the cart is empty, display a message
+                var message = document.createElement('p');
+                message.textContent = 'Your cart is empty.';
+                cartItemsList.appendChild(message);
+            } else {
+
+                // If there are items in the cart, create a table to display them
+                var table = document.createElement('table');
+                table.className = 'table table-bordered';
+
+                // Create the table header
+                var headerRow = document.createElement('tr');
+                headerRow.innerHTML = '<th>Product</th><th>Price</th><th>Quantity</th><th>Remove</th>';
+                table.appendChild(headerRow);
+
+                // Create table rows for each cart item
+                cartItems.forEach(function (item) {
+                    var row = document.createElement('tr');
+                    row.innerHTML = '<td>' + item.Name + '</td><td>₹' + item.Price.toFixed(2) + '</td><td><button onclick="decreaseQuantity(' + item.ProductId + ')">-</button> ' + item.Quantity + ' <button onclick="increaseQuantity(' + item.ProductId + ')">+</button></td><td><button onclick="removeCartItem(' + item.ProductId + ')"><i class="fas fa-trash-alt"></i></td>';
+                    table.appendChild(row);
+                });
+
+                cartItemsList.appendChild(table);
+
+                updateTotalPrice();
+            }
+        }
+
+
+
+        // Function to remove a cart item
+        function removeCartItem(productId) {
+            var cartItems = JSON.parse(sessionStorage.getItem('CartItems')) || [];
+
+            // Find the index of the item with the given ProductId
+            var index = cartItems.findIndex(function (item) {
+                return item.ProductId === productId;
+            });
+
+            // If the item is found, remove it from the array
+            if (index !== -1) {
+                cartItems.splice(index, 1);
+                // Update the cart items in session storage
+                sessionStorage.setItem('CartItems', JSON.stringify(cartItems));
+                // Refresh the cart items display
+                displayCartItems();
+            }
+        }
+
+        // Function to increase the quantity of a cart item
+        function increaseQuantity(productId) {
+            var cartItems = JSON.parse(sessionStorage.getItem('CartItems')) || [];
+
+            // Find the item with the given ProductId
+            var item = cartItems.find(function (item) {
+                return item.ProductId === productId;
+            });
+
+            // If the item is found, increase the quantity
+            if (item) {
+                item.Quantity += 1;
+                // Update the cart items in session storage
+                sessionStorage.setItem('CartItems', JSON.stringify(cartItems));
+                // Refresh the cart items display
+                displayCartItems();
+            }
+        }
+
+        // Function to decrease the quantity of a cart item
+        function decreaseQuantity(productId) {
+            var cartItems = JSON.parse(sessionStorage.getItem('CartItems')) || [];
+
+            // Find the item with the given ProductId
+            var item = cartItems.find(function (item) {
+                return item.ProductId === productId;
+            });
+
+            // If the item is found and the quantity is greater than 1, decrease the quantity
+            if (item && item.Quantity > 1) {
+                item.Quantity -= 1;
+                // Update the cart items in session storage
+                sessionStorage.setItem('CartItems', JSON.stringify(cartItems));
+                // Refresh the cart items display
+                displayCartItems();
+            }
+        }
+
+        // Call the function to display cart items when the page loads
+        displayCartItems();
+
+
+
+
+
+          function redirectToCartAction() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("CheckOut", "Cart")", // Replace "CheckOut" and "Cart" with your actual action and controller names
+            success: function (data) {
+                // Redirect to the specified URL
+                window.location.href = data.url;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+        }
+
+        displayCartItems();
+
+        @*// Bind the click event to the cart icon button
+        document.getElementById('cartIconBtn').addEventListener('click', redirectToCartAction);*@
+    </script>
+</body>
+</html>

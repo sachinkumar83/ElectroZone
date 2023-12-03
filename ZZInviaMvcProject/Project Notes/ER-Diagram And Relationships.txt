@@ -1,0 +1,124 @@
+   +-----------+      +-------------+      +-------------+
+   |   User    |      |   Category  |      |   Product   |
+   +-----------+      +-------------+      +-------------+
+   | UserId    |      | CategoryId  |      | ProductId   |
+   | Username  |      | Name        |      | Name        |
+   | Email     |      | Description |      | Description |
+   | Password  |      +-------------+      | Price       |
+   | Role      |                          | CategoryId  |
+   +-----------+                          +-------------+
+         |                                        |
+         |                                        |
+         |                                        |
+         |                                        |
+         |                                        |
+   +-----------+                          +-------------+
+   |   Order   |                          | OrderItem   |
+   +-----------+                          +-------------+
+   | OrderId   |                          | OrderItemId |
+   | UserId    |                          | OrderId     |
+   | OrderDate |                          | ProductId   |
+   | TotalAmount                          | Quantity    |
+   +-----------+                          | UnitPrice   |
+                                          +-------------+
+         |
+         |
+         |
+         |
+   +-------------+
+   |   Cart      |
+   +-------------+
+   | CartId      |
+   | UserId      |
+   +-------------+
+         |
+         |
+         |
+         |
+   +-------------------+
+   |   CartItem        |
+   +-------------------+
+   | CartItemId        |
+   | CartId            |
+   | ProductId         |
+   | Quantity          |
+   +-------------------+
+         |
+         |
+         |
+         |
+   +-------------+
+   |   Payment   |
+   +-------------+
+   | PaymentId   |
+   | UserId      |
+   | OrderId     |
+   | PaymentDate |
+   | Amount      |
+   +-------------+
+         |
+         |
+         |
+         |
+   +-------------------+
+   |   CategoryProduct |
+   +-------------------+
+   | CategoryId        |
+   | ProductId         |
+   +-------------------+
+
+
+
+
+In the diagram, the primary key of each entity is represented in bold. The relationships between entities are indicated by lines connecting the relevant attributes, with arrows indicating the direction of the relationship. For example, the User entity has a foreign key reference (UserId) in the Order, Cart, and Payment entities, indicating a one-to-many relationship between User and these entities.
+
+The CategoryProduct entity represents a many-to-many relationship between Category and Product entities, connecting them through their respective foreign keys (CategoryId and ProductId).
+
+Note that the diagram does not include attributes like hashed and salted password details, as they are implementation-specific and not typically shown in an ER diagram.
+
+
+
+--------------------Relationships----------------------------
+
+Certainly! Here are the relations between the tables:
+
+1. User:
+   - One-to-Many relationship with Order table (One user can have multiple orders)
+   - One-to-One relationship with Cart table (One user can have one cart)
+   - One-to-Many relationship with Payment table (One user can have multiple payments)
+
+2. Category:
+   - One-to-Many relationship with Product table (One category can have multiple products)
+   - Many-to-Many relationship with Product table through CategoryProduct table (One category can have multiple products, and one product can belong to multiple categories)
+
+3. Product:
+   - Many-to-One relationship with Category table (Many products can belong to one category)
+   - One-to-Many relationship with OrderItem table (One product can be part of multiple order items)
+   - One-to-Many relationship with CartItem table (One product can be part of multiple cart items)
+
+4. Order:
+   - One-to-Many relationship with OrderItem table (One order can have multiple order items)
+   - Many-to-One relationship with User table (Many orders can belong to one user)
+   - One-to-One relationship with Payment table (One order can have one payment)
+
+5. OrderItem:
+   - Many-to-One relationship with Order table (Many order items belong to one order)
+   - Many-to-One relationship with Product table (Many order items belong to one product)
+
+6. Cart:
+   - One-to-One relationship with User table (One cart belongs to one user)
+   - One-to-Many relationship with CartItem table (One cart can have multiple cart items)
+
+7. CartItem:
+   - Many-to-One relationship with Cart table (Many cart items belong to one cart)
+   - Many-to-One relationship with Product table (Many cart items belong to one product)
+
+8. Payment:
+   - Many-to-One relationship with User table (Many payments belong to one user)
+   - One-to-One relationship with Order table (One payment belongs to one order)
+
+9. CategoryProduct:
+   - Many-to-One relationship with Category table (Many category products belong to one category)
+   - Many-to-One relationship with Product table (Many category products belong to one product)
+
+These relationships define how the tables are related to each other and allow for querying and manipulating data across different tables in a meaningful way.

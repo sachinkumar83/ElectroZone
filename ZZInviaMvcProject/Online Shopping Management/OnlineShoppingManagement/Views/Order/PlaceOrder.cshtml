@@ -1,0 +1,188 @@
+﻿@model OnlineShoppingManagement.Models.OrderTBL
+
+@{
+    ViewBag.Title = "PlaceOrder";
+}
+
+@*<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />*@
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            padding: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+            .form-control:focus {
+                border-color: #80bdff;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+            .btn-secondary:hover {
+                background-color: #545b62;
+            }
+
+        .form-check-label {
+            font-weight: normal;
+        }
+    </style>
+@*</head>*@
+    <body>
+
+ 
+
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h2 class="text-center mb-4">Place Order</h2>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name)
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Address)
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email)
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MobileNo)
+                            @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                        </div>
+
+                        <h5 class="text-center mt-4 mb-3">Payment Options</h5>
+                        <div class="form-group text-center">
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="PaymentOption" id="cashPayment" value="Cash">
+                                <label class="form-check-label" for="cashPayment">Cash Payment</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="PaymentOption" id="upiPayment" value="UPI">
+                                <label class="form-check-label" for="upiPayment">UPI Pay</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="PaymentOption" id="netBankingPayment" value="Net Banking">
+                                <label class="form-check-label" for="netBankingPayment">Net Banking</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="PaymentOption" id="debitCardPayment" value="CardDetails">
+                                <label class="form-check-label" for="debitCardPayment">Debit Card</label>
+                            </div>
+                        </div>
+
+                        <div id="debitCardDetails" style="display: none;">
+                            <div class="form-group">
+                                <label for="CardNumber">Card Number</label>
+                                <input type="number" class="form-control" id="CardNumber" name="CardNumber">
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ExpiryDate">Expiry Date</label>
+                                <input type="date" class="form-control" id="ExpiryDate" name="ExpiryDate">
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center mt-4">
+                            <input type="submit" value="Pay Now" class="btn btn-primary" onclick="showSuccessPopup()" />
+                        </div>
+
+
+                         <!-- Success Popup -->
+                <div class="modal fade" id="successPopup" tabindex="-1" role="dialog" aria-labelledby="successPopupLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="successPopupLabel">Success!</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Your Payment has been successfully submitted.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+   }
+
+                </div>
+            </div>
+        </div>
+
+
+@*        <center>
+            <h2 id="requiredPopup" class="modal" style="color: red; margin-top: 280px">
+                All fields are required.
+            </h2>
+        </center>*@
+
+    </body>
+
+<script>
+    $(document).ready(function () {
+        $("input[name='PaymentOption']").change(function () {
+            var selectedOption = $(this).val();
+            if (selectedOption === "CardDetails") {
+                $("#debitCardDetails").show();
+            } else {
+                $("#debitCardDetails").hide();
+            }
+        });
+
+        $("#showSuccessPopup").click(function () {
+            $("#successPopup").show();
+        })
+    });
+
+</script>

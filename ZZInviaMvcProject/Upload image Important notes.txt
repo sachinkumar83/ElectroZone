@@ -1,0 +1,187 @@
+/// importinat thing is --FormMethod.Post, new { enctype = "multipart/form-data" }
+
+@model ImageTestProject.Models.Product
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+
+@using (Html.BeginForm("Add", "Test", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Product</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*  @Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })*@
+            <input type="file" name="ImageFile" required />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+
+
+
+
+
+//---------models and httpPostedFileBase --------
+//------------------------------------------------------------------------------
+
+namespace ImageProject.Models
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Web;
+    public partial class Product
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Title is required.")]
+        [StringLength(100, ErrorMessage = "Title cannot exceed 100 characters.")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "Name is required.")]
+        [StringLength(50, ErrorMessage = "Name cannot exceed 50 characters.")]
+        public string Name { get; set; }
+
+        [DisplayName("Upload Image")]
+        public string ImagePath { get; set; }
+
+        [Required(ErrorMessage = "Image file is required.")]
+        [DisplayName("Select Image")]
+        [NotMapped] // This property will not be mapped to the database
+        public HttpPostedFileBase ImageFile { get; set; }
+    }
+}
+
+
+
+
+
+
+//------important controlller to upload image -----------
+
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using ImageTestProject.Models;
+
+namespace ImageTestProject.Controllers
+{
+    public class TestController : Controller
+    {
+        MvcImageDBEntities1 db = new MvcImageDBEntities1();
+
+        // GET: Test
+        [HttpGet]
+        public ActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Add(Product imageModel)
+        {
+            if (imageModel.ImageFile != null && imageModel.ImageFile.ContentLength > 0)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(imageModel.ImageFile.FileName);
+                string extension = Path.GetExtension(imageModel.ImageFile.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                imageModel.ImagePath = "~/Image/" + fileName;
+                fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
+                imageModel.ImageFile.SaveAs(fileName);
+
+                using (MvcImageDBEntities1 db = new MvcImageDBEntities1())
+                {
+                    
+                    db.Products.Add(imageModel);
+                    db.SaveChanges();
+                }
+
+                ModelState.Clear();
+                ViewBag.Message = "Image uploaded successfully.";
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Please select an image to upload.";
+            }
+
+            return View();
+        }
+
+
+
+    }
+}
+
+
+
+
+//-------fetcing td -----------
+<td>
+            @*@Html.DisplayFor(modelItem => item.ImagePath)*@  show
+
+            @if (!string.IsNullOrEmpty(item.ImagePath))
+            {
+                @*<img src="data:image;base64,@Model." alt="Product Image" />*@
+            <img src="@Url.Content(item.ImagePath)" alt="Product Image" width="100" height="100"/>
+
+            }
+            else
+            {
+                <p>No image available.</p>
+            }
+
+        </td>
+
+
+
+
+

@@ -1,0 +1,170 @@
+﻿@model IEnumerable<OnlineShoppingManagement.Models.Category>
+
+@{
+    ViewBag.Title = "CategoryForCustomer";
+}
+
+<style>
+
+    .container {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+        border-bottom: 2px solid #333;
+        padding-bottom: 10px;
+    }
+
+    h3 {
+        color: #555;
+    }
+
+    /* Style for the category filter input field */
+    #categoryFilter {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    /* Style for category cards */
+    .category-card {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #f1f1f1;
+        border-radius: 5px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        color: #555;
+    }
+
+    .btn-group {
+        margin-top: 15px;
+    }
+
+    .btn {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    /* Styling for the "Show All" link */
+    .show-all-link {
+        background-color: #ff9900;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration-line: none;
+    }
+
+        .show-all-link:hover {
+            color: black;
+            background-color: #ff8800;
+        }
+
+    .card {
+        height: 200px;
+    }
+
+    .card-title {
+        height: 10px;
+    }
+</style>
+
+
+<div class="container">
+
+    <h2 style="font-size: 28px; font-weight: bold; color: #333; text-transform: uppercase; border-bottom: 2px solid #333; padding-bottom: 10px;">CATEGORIES</h2>
+
+    <!-- Category Filter Input -->
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="text" class="form-control" id="categoryFilter" placeholder="Search Category">
+        </div>
+    </div>
+
+    <!-- Category Cards -->
+    <div class="row">
+        @{
+            // Sort the categories by name alphabetically
+            var sortedCategories = Model.OrderBy(c => c.Name);
+        }
+
+        @foreach (var item in sortedCategories)
+        {
+            <div class="col-md-4 category-card" data-category-name="@item.Name" data-category-description="@item.Description">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <!-- Category Name -->
+                        <h5 class="card-title">@item.Name</h5>
+                        <!-- Category Description -->
+                        <p class="card-text">@item.Description</p>
+                        <div class="btn-group">
+                            <!-- Show Products Button -->
+                            @Html.ActionLink("Show Products", "RedirectToProductView", new { id = item.CategoryId }, new { @class = "show-all-link" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <!-- No category found message -->
+    <div class="row" id="noCategoryFoundMessage" style="display: none;">
+        <div class="col-md-12 mt-4 text-center">
+            <h3>No category found</h3>
+        </div>
+    </div>
+</div>
+
+<!-- Category Filter Script -->
+<script>
+    $(document).ready(function () {
+        // Attach event listener to the category filter input field
+        $("#categoryFilter").on("input", function () {
+            var filterText = $(this).val().toLowerCase();
+
+            var hasMatchingCategories = false;
+
+            // Show/hide category cards based on the filter text
+            $(".category-card").each(function () {
+                var categoryName = $(this).data("category-name").toLowerCase();
+                var categoryDescription = $(this).data("category-description").toLowerCase();
+                var matched = categoryName.indexOf(filterText) !== -1 || categoryDescription.indexOf(filterText) !== -1;
+                $(this).toggle(matched);
+
+                if (matched) {
+                    hasMatchingCategories = true;
+                }
+            });
+
+            // Show/hide "No category found" message
+            $("#noCategoryFoundMessage").toggle(!hasMatchingCategories);
+        });
+    });
+</script>
+
+
+
